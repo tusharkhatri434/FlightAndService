@@ -1,3 +1,4 @@
+const {City} = require('../models/index');  // get modals autmoticaly by destructuring;
 
 class CityRepository {
 
