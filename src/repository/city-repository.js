@@ -26,11 +26,19 @@ class CityRepository {
 
     async updateCity(cityId,data){
         try {
-            const city = City.update(data,{
-                where : {
-                    id:cityId
-                }
-            })
+            // this syntax also  work but use for Postgrse Database
+            // it is not return obj in MySQL
+            // const city = City.update(data,{
+            //     where : {
+            //         id:cityId
+            //     }
+            // })
+              
+            const city = await City.findByPk(cityId);
+            city.name = data.name;
+            await city.save();
+            return city;
+
         } catch (error) {
             console.log("Soemthing went wrong in city-repository");
             throw { error };
@@ -39,7 +47,7 @@ class CityRepository {
 
     async getCity(cityId){
         try {
-            const city = City.findByPk(cityId);
+            const city = await City.findByPk(cityId);
             return city;
         } catch (error) {
             console.log("Soemthing went wrong in city-repository");
