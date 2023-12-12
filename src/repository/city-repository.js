@@ -1,4 +1,5 @@
-const {City} = require('../models/index');  // get modals autmoticaly by destructuring;
+const { Op } = require("sequelize");
+const { City } = require("../models/index"); // get modals autmoticaly by destructuring;
 
 class CityRepository {
   async createCity({ name }) {
@@ -45,7 +46,6 @@ class CityRepository {
     }
   }
 
-
   async getCity(cityId) {
     try {
       const city = await City.findByPk(cityId);
@@ -56,17 +56,25 @@ class CityRepository {
     }
   }
 
-  async getAllCity() {
-    try {
-      const city = await City.findAll();
-      return city;
+  async getAllCity(filter) {
+    try { 
+      if (filter.name) {
+      const cities = await City.findAll({
+        where: {
+          name: {
+            [Op.startsWith]: filter.name,
+          },
+        },
+      });
+      return cities;
+    }
+    const cities = await City.findAll();
+    return cities;
     } catch (error) {
       console.log("Something went wrong in the repository layer");
       throw { error };
     }
   }
-
-
 }
 
 module.exports = CityRepository;
