@@ -46,6 +46,17 @@ class CityService {
         }
     }
 
+    async getAllCity(){
+        try{
+            const allCity = await this.cityRepository.getAllCity();
+            return allCity;
+        }
+        catch(error){
+            console.log("Something went wrong in city-service layer");
+            throw{error};
+        }
+    }
+
     
 }
 
