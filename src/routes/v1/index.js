@@ -14,6 +14,8 @@ router.patch("/city/:id", CityController.update);
 // flight routes---
 router.post("/flights", FlightMiddleware.validateCreateFlight, FlightController.create);
 router.get("/flights", FlightController.getAll);
+router.get("/flight/:id", FlightController.get);
+router.patch("/flight/:id", FlightController.update);
 
 // Airpor routes---
 router.post("/airport", AirportController.create);

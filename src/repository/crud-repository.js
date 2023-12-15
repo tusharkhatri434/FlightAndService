@@ -27,11 +27,14 @@ class CrudRepository {
         }
     }
 
-    async update(id,newData){
+    async update(itemId,newData){
         try {
-            const response = await this.modelName.findByPk(id)
-            response.name = newData.name;
-            await response.save();
+             await this.model.update(newData, {
+               where: {
+                 id: itemId,
+               },
+             });
+             return true;
         } catch (error) {
             console.log('Somthing went wrong in repository layer');
             throw{error};
@@ -41,7 +44,7 @@ class CrudRepository {
     async get(id){
         try {
             const response = await this.modelName.findByPk(id);
-            return response                       
+            return response;                       
         } catch (error) {
             console.log('Somthing went wrong in repository layer');
             throw{error};

@@ -2,7 +2,6 @@ const {Flight} = require("../models/index");
 const {Op} = require('sequelize');
 
 class FlightRepository {
-  
   #createFilter(data) {
     let filter = {};
     if (data.arrivalAirportId) {
@@ -45,7 +44,7 @@ class FlightRepository {
     }
   }
 
-  async getFlight(flightId) {
+  async getFlightOne(flightId) {
     try {
       const flight = await Flight.findByPk(flightId);
       return flight;
@@ -63,6 +62,20 @@ class FlightRepository {
     } catch (err) {
       console.log("Somthing went wrong in repository layer");
       throw { err };
+    }
+  }
+
+  async updateFlights(flightId, data) {
+    try {
+      await Flight.update(data, {
+        where: {
+          id: flightId,
+        },
+      });
+      return true;
+    } catch (error) {
+      console.log("Something went wrong in the repository layer");
+      throw { error };
     }
   }
 }
